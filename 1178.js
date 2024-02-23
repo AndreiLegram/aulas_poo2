@@ -1,20 +1,13 @@
-var X = parseFloat(lines.shift());
+var input = require('fs').readFileSync('/dev/stdin', 'utf8');
+var lines = input.split('\n');
 
-console.log("N[0] = " + X.toFixed(4));
+var b = parseFloat(lines[0]);
+var n = new Array(100);
+n[0] = b;
 
-for (var i = 1; i < 100; i++) {
-  X = X/2;
-  X = X.toFixed(6);
-  console.log("N[" + i + "] = " + formatNumber(X));
+for (var a = 0; a < 100; a++) {
+  var formattedValue = n[a].toLocaleString('en-US', { minimumFractionDigits: 4, useGrouping: false });
+  console.log(`N[${a}] = ${formattedValue.replace(',', '.')}`);
+  b /= 2;
+  n[a + 1] = b;
 }
-
-function formatNumber(num){
-    var decimalValues = (num.toString().split('.')[1]);
-    if(decimalValues[4]<=5 && decimalValues[5]===0){
-        return num.toString().split('.')[0] + '.' + decimalValues[0] + decimalValues[1] + decimalValues[2] + decimalValues[3];
-    }
-    return parseFloat(num).toFixed(4);
-}
-
-
-//tem erro de arredondamento :(
