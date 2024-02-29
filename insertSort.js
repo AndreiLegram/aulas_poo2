@@ -1,15 +1,14 @@
 const lines = [4, 1, 6, 8, 3];
 
 for (let i = 1 ; i < lines.length ; i++) {
-    let menorNumero = lines[i];
-    for (let j = 0 ; j < lines.length ; j++) {
-        if (lines[j] < menorNumero) {
-            menorNumero = lines[j]
-        }
+    let elementoAtual = lines[i];
+    let j = i - 1;
+    while (j >= 0 && lines[j] > elementoAtual) {
+        lines[j + 1] = lines[j];
+        j = j - 1;
     }
-    let temp = lines[i];
-    lines[i] = lines[menorNumero];
-    lines[menorNumero] = temp;
+
+    lines[j + 1] = elementoAtual;
 }
 
 console.log(lines);
