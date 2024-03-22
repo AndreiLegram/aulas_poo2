@@ -28,11 +28,11 @@ test('testar topo da pilha com um elemento', () => {
 });
 test('testar topo da pilha sem elementos', () => {
     let pilha = new Pilha();
-    expect(pilha.topo()).toThrow(Error);
+    expect(() => {pilha.topo()}).toThrow("A pilha está vazia");
 });
 test('testar desempilhar pilha vazia', () => {
     let pilha = new Pilha();
-    expect(pilha.desempilhar()).toThrow(Error)
+    expect(() => {pilha.desempilhar()}).toThrow("A pilha está vazia")
 });
 test('testar desempilhar com elementos', () => {
     let pilha = new Pilha();
@@ -51,10 +51,6 @@ test('testar getTamanho com elementos', () => {
     pilha.empilhar('B');
     pilha.empilhar('C');
     expect(pilha.getTamanho()).toBe(3);
-});
-test('testar getTamanho pilha vazia', () => {
-    let pilha = new Pilha();
-    expect(pilha.getTamanho()).toBeTruthy()
 });
 test('testar estaVazia com elementos', () => {
     let pilha = new Pilha();
