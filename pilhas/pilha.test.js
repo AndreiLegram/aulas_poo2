@@ -63,7 +63,6 @@ test('testar estaVazia sem elementos', () => {
     let pilha = new Pilha();
     expect(pilha.estavazia()).toBeTruthy()
 });
-
 test('testar toString pilha vazia', () => {
     let pilha = new Pilha();
     expect(pilha.toString()).toBe('[]')
