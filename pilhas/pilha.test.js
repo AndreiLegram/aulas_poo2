@@ -1,4 +1,4 @@
-const { Pilha } = require("./pilha");
+const { Pilha } = require("./Pilha");
 
 test('adicionar um elemento na pilha vazia', () => {
     let pilha = new Pilha();
