@@ -1,9 +1,8 @@
 const { Fila } = require("./fila");
 
-test('adicionar um elemento na fila vazia', () => {
-    let fila = new Fila();
-    fila.enfileirar('A');
-    expect(fila.enfileirar()).toBe('[A]');
+test('Criar uma fila', () => {
+    const fila = new Fila();
+    expect(fila).toBe(Fila);
 });
 test('adicionar um elemento numa fila com elementos', () => {
     let fila = new Fila();
