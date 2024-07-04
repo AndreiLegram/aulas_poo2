@@ -1,3 +1,4 @@
+import { Aluno } from "./aluno";
 import { Celula } from "./celula";
 
 export class ListaLigada {
@@ -124,11 +125,10 @@ export class ListaLigada {
         }
     }
 
-
-    public contem(Object: elemento): bool {
+    public contem(elemento: Aluno): boolean {
         let atual: Celula = this._primeira;
         while (atual != null) {
-            if (atual.getElemento().equals(elemento)) {
+            if (atual.getElemento() === elemento) {
                 return true;
             }
             atual = atual.getProxima();
