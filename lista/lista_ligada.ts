@@ -129,7 +129,7 @@ export class ListaLigada {
     public contem(elemento: Aluno): boolean {
         let atual: Celula = this._primeira;
         while (atual != null) {
-            if (atual.getElemento() == elemento) {
+            if (atual.getElemento() === elemento) {
                 return true;
             }
             atual = atual.getProxima();
