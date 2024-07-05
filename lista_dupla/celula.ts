@@ -1,11 +1,11 @@
-import { Aluno } from "./aluno";
+import { Carro } from "./carro";
 
 export class Celula {
     private _proxima: Celula;
     private _anterior: Celula;
-    private _elemento: Aluno;
+    private _elemento: Carro;
 
-    public constructor(proxima: Celula | null, anterior: Celula | null, elemento: Aluno) {
+    public constructor(proxima: Celula | null, anterior: Celula | null, elemento: Carro) {
         this._proxima = proxima;
         this._anterior = anterior;
         this._elemento = elemento;
@@ -17,7 +17,7 @@ export class Celula {
     public getProxima(): Celula {
         return this._proxima;
     }
-    public getElemento(): Aluno {
+    public getElemento(): Carro {
         return this._elemento;
     }
     public setAnterior(anterior: Celula|null): void {
