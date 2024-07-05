@@ -1,58 +1,64 @@
-"use strict";
-exports.__esModule = true;
-exports.ListaLigada = exports.Celula = void 0;
-var Celula = /** @class */ (function () {
-    function Celula(proxima, elemento) {
+export class Celula {
+    private _proxima: Celula;
+    private _elemento: object;
+
+    public constructor(proxima: Celula, elemento: object) {
         this._proxima = proxima;
         this._elemento = elemento;
     }
-    Celula.prototype.setProxima = function (proxima) {
+
+    public setProxima(proxima: Celula): void {
         this._proxima = proxima;
-    };
-    Celula.prototype.getProxima = function () {
+    }
+    public getProxima(): Celula {
         return this._proxima;
-    };
-    Celula.prototype.getElemento = function () {
+    }
+    public getElemento(): Object {
         return this._elemento;
-    };
-    return Celula;
-}());
-exports.Celula = Celula;
-var ListaLigada = /** @class */ (function () {
-    function ListaLigada() {
+    }
+}
+
+export class ListaLigada {
+    private _primeira: Celula;
+    private _ultima: Celula;
+    private _totalDeElementos: number;
+
+    public constructor() {
         this._primeira = null;
         this._ultima = null;
         this._totalDeElementos = 0;
     }
-    ListaLigada.prototype.adicionaNoComeco = function (elemento) {
-        var nova = new Celula(this._primeira, elemento);
+
+    public adicionaNoComeco(elemento: Object): void {
+        let nova: Celula = new Celula(this._primeira, elemento);
         this._primeira = nova;
         if (this._totalDeElementos == 0) {
             // caso especial da lista vazia
             this._ultima = this._primeira;
         }
         this._totalDeElementos++;
-    };
-    ListaLigada.prototype.adicionar = function (elemento) {
+    }
+
+    public adicionar(elemento: Object): void {
         if (this._totalDeElementos == 0) {
             this.adicionaNoComeco(elemento);
-        }
-        else {
-            var nova = new Celula(null, elemento);
+        } else {
+            let nova: Celula = new Celula(null, elemento);
             this._ultima.setProxima(nova);
             this._ultima = nova;
             this._totalDeElementos++;
         }
-    };
-    ListaLigada.prototype.toString = function () {
+    }
+
+    public toString(): string {
         // Verificando se a Lista está vazia
         if (this._totalDeElementos == 0) {
             return "[]";
         }
-        var str = "[";
-        var atual = this._primeira;
+        let str = "[";
+        let atual: Celula = this._primeira;
         // Percorrendo até o penúltimo elemento.
-        for (var i = 0; i < this._totalDeElementos - 1; i++) {
+        for (let i: number = 0; i < this._totalDeElementos - 1; i++) {
             str += atual.getElemento();
             str += ", ";
             atual = atual.getProxima();
@@ -61,38 +67,40 @@ var ListaLigada = /** @class */ (function () {
         str += atual.getElemento();
         str += "]";
         return str;
-    };
-    ListaLigada.prototype.posicaoOcupada = function (posicao) {
+    }
+
+    private posicaoOcupada(posicao: number): boolean {
         return posicao >= 0 && posicao < this._totalDeElementos;
-    };
-    ListaLigada.prototype.pegaCelula = function (posicao) {
+    }
+    private pegaCelula(posicao: number): Celula {
         if (!this.posicaoOcupada(posicao)) {
             throw new Error("Posição não existe");
         }
-        var atual = this._primeira;
-        for (var i = 0; i < posicao; i++) {
+        let atual: Celula = this._primeira;
+        for (let i: number = 0; i < posicao; i++) {
             atual = atual.getProxima();
         }
         return atual;
-    };
-    ListaLigada.prototype.adiciona = function (posicao, elemento) {
+    }
+
+    public adiciona(posicao: number, elemento: Object): void {
         if (posicao == 0) { // No começo.
             this.adicionaNoComeco(elemento);
-        }
-        else if (posicao == this._totalDeElementos) { // No fim.
+        } else if (posicao == this._totalDeElementos) { // No fim.
             this.adicionar(elemento);
-        }
-        else {
-            var anterior = this.pegaCelula(posicao - 1);
-            var nova = new Celula(anterior.getProxima(), elemento);
+        } else {
+            let anterior: Celula = this.pegaCelula(posicao - 1);
+            let nova: Celula = new Celula(anterior.getProxima(), elemento);
             anterior.setProxima(nova);
             this._totalDeElementos++;
         }
-    };
-    ListaLigada.prototype.pega = function (posicao) {
+    }
+
+    public pega(posicao: number): Object {
         return this.pegaCelula(posicao).getElemento();
-    };
-    ListaLigada.prototype.removeDoComeco = function () {
+    }
+
+    public removeDoComeco(): void {
         if (!this.posicaoOcupada(0)) {
             throw new Error("Posição não existe");
         }
@@ -101,52 +109,52 @@ var ListaLigada = /** @class */ (function () {
         if (this._totalDeElementos == 0) {
             this._ultima = null;
         }
-    };
-    ListaLigada.prototype.removeDoFim = function () {
+    }
+
+    public removeDoFim(): void {
         if (!this.posicaoOcupada(this._totalDeElementos - 1)) {
             throw new Error("Posição não existe");
         }
         if (this._totalDeElementos == 1) {
             this.removeDoComeco();
-        }
-        else {
-            var penultima = this.pegaCelula(this._totalDeElementos - 2);
+        } else {
+            let penultima: Celula = this.pegaCelula(this._totalDeElementos - 2);
             penultima.setProxima(null);
             this._ultima = penultima;
             this._totalDeElementos--;
         }
-    };
-    ListaLigada.prototype.remove = function (posicao) {
+    }
+
+    public remove(posicao: number): void {
         if (!this.posicaoOcupada(posicao)) {
             throw new Error("Posição não existe");
         }
         if (posicao == 0) {
             this.removeDoComeco();
-        }
-        else if (posicao == this._totalDeElementos - 1) {
+        } else if (posicao == this._totalDeElementos - 1) {
             this.removeDoFim();
-        }
-        else {
-            var anterior = this.pegaCelula(posicao - 1);
-            var atual = anterior.getProxima();
-            var proxima = atual.getProxima();
+        } else {
+            let anterior: Celula = this.pegaCelula(posicao - 1);
+            let atual: Celula = anterior.getProxima();
+            let proxima: Celula = atual.getProxima();
             anterior.setProxima(proxima);
             this._totalDeElementos--;
         }
-    };
-    ListaLigada.prototype.contem = function (Object) {
-        var atual = this._primeira;
+    }
+
+
+    public contem(elemento: Object): boolean {
+        let atual: Celula = this._primeira;
         while (atual != null) {
-            if (atual.getElemento().equals(elemento)) {
+            if (atual.getElemento() == elemento) {
                 return true;
             }
             atual = atual.getProxima();
         }
         return false;
-    };
-    ListaLigada.prototype.tamanho = function () {
+    }
+
+    public tamanho(): number {
         return this._totalDeElementos;
-    };
-    return ListaLigada;
-}());
-exports.ListaLigada = ListaLigada;
+    }
+}

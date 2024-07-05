@@ -12,7 +12,7 @@ export class ListaLigada {
         this._totalDeElementos = 0;
     }
 
-    public adicionaNoComeco(elemento: Object): void {
+    public adicionaNoComeco(elemento: Aluno): void {
         let nova: Celula = new Celula(this._primeira, elemento);
         this._primeira = nova;
         if (this._totalDeElementos == 0) {
@@ -22,7 +22,7 @@ export class ListaLigada {
         this._totalDeElementos++;
     }
 
-    public adicionar(elemento: Object): void {
+    public adicionar(elemento: Aluno): void {
         if (this._totalDeElementos == 0) {
             this.adicionaNoComeco(elemento);
         } else {
@@ -42,12 +42,12 @@ export class ListaLigada {
         let atual: Celula = this._primeira;
         // Percorrendo até o penúltimo elemento.
         for (let i: number = 0; i < this._totalDeElementos - 1; i++) {
-            str += atual.getElemento();
+            str += atual.getElemento().getNome();
             str += ", ";
             atual = atual.getProxima();
         }
         // último elemento
-        str += atual.getElemento();
+        str += atual.getElemento().getNome();
         str += "]";
         return str;
     }
@@ -66,7 +66,7 @@ export class ListaLigada {
         return atual;
     }
 
-    public adiciona(posicao: number, elemento: Object): void {
+    public adiciona(posicao: number, elemento: Aluno): void {
         if (posicao == 0) { // No começo.
             this.adicionaNoComeco(elemento);
         } else if (posicao == this._totalDeElementos) { // No fim.
@@ -79,7 +79,7 @@ export class ListaLigada {
         }
     }
 
-    public pega(posicao: number): Object {
+    public pega(posicao: number): Aluno {
         return this.pegaCelula(posicao).getElemento();
     }
 

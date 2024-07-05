@@ -15,7 +15,7 @@ export class Celula {
     public getProxima(): Celula {
         return this._proxima;
     }
-    public getElemento(): Object {
+    public getElemento(): Aluno {
         return this._elemento;
     }
 }
