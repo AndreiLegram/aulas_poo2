@@ -1,7 +1,7 @@
 import { Aluno } from "./aluno";
 import { Celula } from "./celula";
 
-export class ListaLigada {
+export class ListaDuplamenteLigada {
     private _primeira: Celula;
     private _ultima: Celula;
     private _totalDeElementos: number;
@@ -13,12 +13,15 @@ export class ListaLigada {
     }
 
     public adicionaNoComeco(elemento: Aluno): void {
-        let nova: Celula = new Celula(this._primeira, elemento);
+        let nova: Celula = new Celula(null, null, elemento);
         this._primeira = nova;
         if (this._totalDeElementos == 0) {
-            // caso especial da lista vazia
+            this._primeira.setAnterior(nova)
             this._ultima = this._primeira;
+        } else {
+            this._ultima = nova
         }
+        this._primeira = nova
         this._totalDeElementos++;
     }
 
@@ -26,8 +29,9 @@ export class ListaLigada {
         if (this._totalDeElementos == 0) {
             this.adicionaNoComeco(elemento);
         } else {
-            let nova: Celula = new Celula(null, elemento);
+            let nova: Celula = new Celula(null, null, elemento);
             this._ultima.setProxima(nova);
+            nova.setAnterior(this._ultima)
             this._ultima = nova;
             this._totalDeElementos++;
         }
@@ -73,8 +77,10 @@ export class ListaLigada {
             this.adicionar(elemento);
         } else {
             let anterior: Celula = this.pegaCelula(posicao - 1);
-            let nova: Celula = new Celula(anterior.getProxima(), elemento);
+            let proxima: Celula = this.pegaCelula(posicao)
+            let nova: Celula = new Celula(proxima, anterior, elemento);
             anterior.setProxima(nova);
+            proxima.setAnterior(nova);
             this._totalDeElementos++;
         }
     }
@@ -88,6 +94,7 @@ export class ListaLigada {
             throw new Error("Posição não existe");
         }
         this._primeira = this._primeira.getProxima();
+        this._primeira.setAnterior(null)
         this._totalDeElementos--;
         if (this._totalDeElementos == 0) {
             this._ultima = null;
@@ -121,6 +128,7 @@ export class ListaLigada {
             let atual: Celula = anterior.getProxima();
             let proxima: Celula = atual.getProxima();
             anterior.setProxima(proxima);
+            proxima.setAnterior(anterior);
             this._totalDeElementos--;
         }
     }
