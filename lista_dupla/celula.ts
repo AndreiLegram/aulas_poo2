@@ -1,8 +1,8 @@
 import { Carro } from "./carro";
 
 export class Celula {
-    private _proxima: Celula;
-    private _anterior: Celula;
+    private _proxima: Celula|null;
+    private _anterior: Celula|null;
     private _elemento: Carro;
 
     public constructor(proxima: Celula | null, anterior: Celula | null, elemento: Carro) {
@@ -11,10 +11,10 @@ export class Celula {
         this._elemento = elemento;
     }
 
-    public setProxima(proxima: Celula): void {
+    public setProxima(proxima: Celula|null): void {
         this._proxima = proxima;
     }
-    public getProxima(): Celula {
+    public getProxima(): Celula|null {
         return this._proxima;
     }
     public getElemento(): Carro {
@@ -23,7 +23,7 @@ export class Celula {
     public setAnterior(anterior: Celula|null): void {
         this._anterior = anterior
     }
-    public getAnterior(): Celula {
+    public getAnterior(): Celula|null {
         return this._anterior;
     }
 }
