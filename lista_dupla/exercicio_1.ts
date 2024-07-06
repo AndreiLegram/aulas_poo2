@@ -1,9 +1,51 @@
-import { Carro } from "./carro";
-import { Celula } from "./celula";
+export class Aluno {
+    private nome: string;
+    private idade: number;
+
+    public constructor(nome: string, idade: number) {
+        this.nome = nome;
+        this.idade = idade;
+    }
+
+    public getNome() {
+        return this.nome;
+    }
+    public getIdade() {
+        return this.idade;
+    }
+}
+
+export class Celula {
+    private _proxima: Celula;
+    private _anterior: Celula;
+    private _elemento: Aluno;
+
+    public constructor(proxima: Celula | null, anterior: Celula | null, elemento: Aluno) {
+        this._proxima = proxima;
+        this._anterior = anterior;
+        this._elemento = elemento;
+    }
+
+    public setProxima(proxima: Celula): void {
+        this._proxima = proxima;
+    }
+    public getProxima(): Celula {
+        return this._proxima;
+    }
+    public getElemento(): Aluno {
+        return this._elemento;
+    }
+    public setAnterior(anterior: Celula|null): void {
+        this._anterior = anterior
+    }
+    public getAnterior(): Celula {
+        return this._anterior;
+    }
+}
 
 export class ListaDuplamenteLigada {
-    private _primeira: Celula | null;
-    private _ultima: Celula | null;
+    private _primeira: Celula;
+    private _ultima: Celula;
     private _totalDeElementos: number;
 
     public constructor() {
@@ -12,9 +54,9 @@ export class ListaDuplamenteLigada {
         this._totalDeElementos = 0;
     }
 
-    public adicionaNoComeco(elemento: Carro): void {
+    public adicionaNoComeco(elemento: Aluno): void {
         let nova: Celula = new Celula(null, null, elemento);
-        if (this._totalDeElementos > 0 && this._primeira instanceof Celula) {
+        if (this._totalDeElementos != 0) {
             this._primeira.setAnterior(nova);
             nova.setProxima(this._primeira);
         } else {
@@ -24,14 +66,12 @@ export class ListaDuplamenteLigada {
         this._totalDeElementos++;
     }
 
-    public adicionar(elemento: Carro): void {
+    public adicionar(elemento: Aluno): void {
         if (this._totalDeElementos == 0) {
             this.adicionaNoComeco(elemento);
         } else {
             let nova: Celula = new Celula(null, null, elemento);
-            if (this._ultima instanceof Celula) {
-                this._ultima.setProxima(nova);
-            }
+            this._ultima.setProxima(nova);
             nova.setAnterior(this._ultima)
             this._ultima = nova;
             this._totalDeElementos++;
@@ -44,21 +84,15 @@ export class ListaDuplamenteLigada {
             return "[]";
         }
         let str = "[";
-        if (!(this._primeira instanceof Celula)) {
-            return str + "]";
-        }
         let atual: Celula = this._primeira;
         // Percorrendo até o penúltimo elemento.
         for (let i: number = 0; i < this._totalDeElementos - 1; i++) {
-            str += atual.getElemento().toString();
+            str += atual.getElemento().getNome();
             str += ", ";
-            let proxima = atual.getProxima();
-            if (proxima instanceof Celula) {
-                atual = proxima;
-            }
+            atual = atual.getProxima();
         }
         // último elemento
-        str += atual.getElemento().toString();
+        str += atual.getElemento().getNome();
         str += "]";
         return str;
     }
@@ -68,23 +102,17 @@ export class ListaDuplamenteLigada {
     }
 
     private pegaCelula(posicao: number): Celula {
-        if (!(this._primeira instanceof Celula)) {
-            throw new Error("Primeira célula nula");
-        }
-        if (!this.posicaoOcupada(posicao) || !(this._primeira instanceof Celula)) {
+        if (!this.posicaoOcupada(posicao)) {
             throw new Error("Posição não existe");
         }
         let atual: Celula = this._primeira;
         for (let i: number = 0; i < posicao; i++) {
-            let proxima = atual.getProxima();
-            if (proxima instanceof Celula) {
-                atual = proxima;
-            }
+            atual = atual.getProxima();
         }
         return atual;
     }
 
-    public adiciona(posicao: number, elemento: Carro): void {
+    public adiciona(posicao: number, elemento: Aluno): void {
         if (posicao == 0) { // No começo.
             this.adicionaNoComeco(elemento);
         } else if (posicao == this._totalDeElementos) { // No fim.
@@ -99,21 +127,15 @@ export class ListaDuplamenteLigada {
         }
     }
 
-    public pega(posicao: number): Carro {
+    public pega(posicao: number): Aluno {
         return this.pegaCelula(posicao).getElemento();
     }
 
     public removeDoComeco(): void {
-        if (!(this._primeira instanceof Celula)) {
-            throw new Error("Primeira célula nula");
-        }
         if (!this.posicaoOcupada(0)) {
             throw new Error("Posição não existe");
         }
-        let proxima = this._primeira.getProxima();
-        if (proxima instanceof Celula) {
-            this._primeira = proxima;
-        }
+        this._primeira = this._primeira.getProxima();
         this._primeira.setAnterior(null)
         this._totalDeElementos--;
         if (this._totalDeElementos == 0) {
@@ -122,19 +144,14 @@ export class ListaDuplamenteLigada {
     }
 
     public removeDoFim(): void {
-        if (!(this._ultima instanceof Celula)) {
-            throw new Error("Última célula nula");
-        }
         if (!this.posicaoOcupada(this._totalDeElementos - 1)) {
             throw new Error("Posição não existe");
         }
         if (this._totalDeElementos == 1) {
             this.removeDoComeco();
         } else {
-            let penultima = this._ultima.getAnterior();
-            if (penultima instanceof Celula) {
-                penultima.setProxima(null);
-            }
+            let penultima: Celula = this._ultima.getAnterior();
+            penultima.setProxima(null);
             this._ultima = penultima;
             this._totalDeElementos--;
         }
@@ -147,25 +164,19 @@ export class ListaDuplamenteLigada {
             this.removeDoFim();
         } else {
             let anterior: Celula = this.pegaCelula(posicao - 1);
-            let atual = anterior.getProxima();
-            if (!(atual instanceof Celula)) {
-                throw new Error("Célula atual nula");
-            }
-            let proxima = atual.getProxima();
-            if (!(proxima instanceof Celula)) {
-                throw new Error("Próxima célula nula");
-            }
+            let atual: Celula = anterior.getProxima();
+            let proxima: Celula = atual.getProxima();
             anterior.setProxima(proxima);
             proxima.setAnterior(anterior);
             this._totalDeElementos--;
         }
     }
 
-    public contem(elemento: Carro): Celula | boolean {
-        let atual = this._primeira;
+    public contem(elemento: Aluno): boolean {
+        let atual: Celula = this._primeira;
         while (atual != null) {
             if (atual.getElemento() === elemento) {
-                return atual;
+                return true;
             }
             atual = atual.getProxima();
         }
