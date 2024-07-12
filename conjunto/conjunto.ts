@@ -50,45 +50,45 @@ export class Conjunto {
     }
 
     public union(otherSet: Conjunto) {
-        const unionSet = new Conjunto();
-        let values = this.values();
+        const unionSet = new Conjunto()
+        let values = this.values()
         for (let i = 0; i < values.length; i++) {
-            unionSet.add(values[i]);
+            unionSet.add(values[i])
         }
-        values = otherSet.values();
+        values = otherSet.values()
         for (let i = 0; i < values.length; i++) {
-            unionSet.add(values[i]);
+            unionSet.add(values[i])
         }
-        return unionSet;
-    };
+        return unionSet
+    }
 
     public intersection(otherSet: {}): any[] {
-        const result = [];
+        const result = []
         for (const key in this._items) {
             if (otherSet.hasOwnProperty(key)) {
-                result.push(key);
+                result.push(key)
             }
         }
-        return result;
+        return result
     }
 
     public difference(otherSet: {}): any[] {
-        const result = [];
+        const result = []
         for (const key in this._items) {
             if (!otherSet.hasOwnProperty(key)) {
-                result.push(key);
+                result.push(key)
             }
         }
-        return result;
+        return result
     }
 
     public isSubsetOf(otherSet: {}): boolean {
         for (const key in this._items) {
             if (!otherSet.hasOwnProperty(key)) {
-                return false;
+                return false
             }
         }
-        return true;
+        return true
     }
 
 }
