@@ -29,6 +29,17 @@ class DecimalToBinaryConverter {
     }
 }
 
-
 const converter = new DecimalToBinaryConverter(150);
 const binaryRepresentation = converter.convertToBinary();
+
+class Testes {
+    public constructor() {
+        console.log(new DecimalToBinaryConverter(10).convertToBinary())
+        console.log(new DecimalToBinaryConverter(3).convertToBinary())
+        console.log(new DecimalToBinaryConverter(45).convertToBinary())
+        console.log(new DecimalToBinaryConverter(13).convertToBinary())
+        console.log(new DecimalToBinaryConverter(21).convertToBinary())
+    }
+}
+
+new Testes()
